@@ -66,91 +66,98 @@ a.	ABCD16
     
 # 8
 a.	0,312510 
-Langkah-langkah: 
-0,3125 × 2 = 0,625 = 0 
-0,625 × 2 = 1,25 = 1 
-0,25 × 2 = 0,5 = 0 
-0,5 × 2 = 1,0 = 1 
-Hasil: 0,312510 = 0,0101 (a)
+
+    Langkah-langkah: 
+    0,3125 × 2 = 0,625 = 0 
+    0,625 × 2 = 1,25 = 1 
+    0,25 × 2 = 0,5 = 0 
+    0,5 × 2 = 1,0 = 1 
+    Hasil: 0,312510 = 0,0101 (a)
 
 # 9
 a.	11,62510
-Langkah Langkah
-1110  = 10112
-0,62510  x 2 = 1,25 = 1
-0.25 x 2 = 0,5 = 0
-0,5 x 2 = 1,0 – 1
-Hasil 11,62510 = 1011,1012
+    
+    Langkah Langkah
+    1110  = 10112
+    0,62510  x 2 = 1,25 = 1
+    0.25 x 2 = 0,5 = 0
+    0,5 x 2 = 1,0 – 1
+    Hasil 11,62510 = 1011,1012
 
 # 10
 
 a.	348,65410 
-Langkah Langkah
-348 ÷ 16 = 21 sisa 12 (C)
-21 ÷ 16 = 1 sisa 5
-1 ÷ 16 = 0 sisa 1
-Jadi, 348₁₀ = 15C
+    
+    Langkah Langkah
+    348 ÷ 16 = 21 sisa 12 (C)
+    21 ÷ 16 = 1 sisa 5
+    1 ÷ 16 = 0 sisa 1
+    Jadi, 348₁₀ = 15C
 
+    0,654 × 16 = 10,464 → 10 (A)
+    0,464 × 16 = 7,424 → 7
+    0,424 × 16 = 6,784 → 6
+    Jadi, 0,654₁₀ ≈ A78
 
-
-0,654 × 16 = 10,464 → 10 (A)
-0,464 × 16 = 7,424 → 7
-0,424 × 16 = 6,784 → 6
-Jadi, 0,654₁₀ ≈ A78
-
-Hasil dari 348,654₁₀ ≈ 15C,A78
+    Hasil dari 348,654₁₀ ≈ 15C,A78
 
 # 11
 a.	010100011,0011111012 
-Langkah Langkah: 
-0 × 211 + 1 × 210 + 0 × 29 + 1 × 28 + 0 × 27 + 0 × 26 + 0 × 25 + 1 × 24 + 1 × 23 + 0 × 22 + 1 × 21 + 0 × 20 
-0 + 1024 + 0 + 256 + 0 + 0 + 0 + 16 + 8 + 0 + 2 + 0 = 163,245 
-Hasil: 010100011,0011111012 = 163,24510
+
+    Langkah Langkah: 
+    0 × 211 + 1 × 210 + 0 × 29 + 1 × 28 + 0 × 27 + 0 × 26 + 0 × 25 + 1 × 24 + 1 × 23 + 0 × 22 + 1 × 21 + 0 × 20 
+    0 + 1024 + 0 + 256 + 0 + 0 + 0 + 16 + 8 + 0 + 2 + 0 = 163,245 
+    Hasil: 010100011,0011111012 = 163,24510
 
 # 12
 a.	101001100001112 
-Langkah-langkah
-0010 = 2
-1001 = 9
-1000 = 8
-0111 = 7
-Hasil dari 101001100001112 = 2987 (a)
+    
+    Langkah-langkah
+    0010 = 2
+    1001 = 9
+    1000 = 8
+    0111 = 7
+    Hasil dari 101001100001112 = 2987 (a)
 
 # 13
 a.	1987
-Langkah Langkah
-1 = 0001
-9 = 1001
-8 = 1000
-7 = 0111
-Bilangan biner dari BCD 1987 =  1 1001 1000 0111 (a)
+    
+    Langkah Langkah
+    1 = 0001
+    9 = 1001
+    8 = 1000
+    7 = 0111
+    Bilangan biner dari BCD 1987 =  1 1001 1000 0111 (a)
 
 # 14
 a.	111111010012
-Langkah Langkah
-011 = 3
-111 = 7
-101	= 5
-001	= 1
-BCD dari biner 111111010012 = 3751 (a)
+    
+    Langkah Langkah
+    011 = 3
+    111 = 7
+    101	= 5
+    001	= 1
+    BCD dari biner 111111010012 = 3751 (a)
 
 # 15
 a.	11011111001011102
-Langkah Langkah
-1101 = D
-1111 = F
-0010 = 2
-1110 = E
-BCH dari biner 11011111001011102 = DF2E (a)
+
+    Langkah Langkah
+    1101 = D
+    1111 = F
+    0010 = 2
+    1110 = E
+    BCH dari biner 11011111001011102 = DF2E (a)
 
 # 16
 a.	F0DE
-Langkah Langkah
-F = 1111
-0 = 0000
-D = 1101
-E = 1110
-Biner dari BCH F0DE = 1111 0000 1101 1110 (a)
+
+    Langkah Langkah
+    F = 1111
+    0 = 0000
+    D = 1101
+    E = 1110
+    Biner dari BCH F0DE = 1111 0000 1101 1110 (a)
 
 # 17
   a.	01111111
@@ -177,16 +184,11 @@ Biner dari BCH F0DE = 1111 0000 1101 1110 (a)
   Dalam tabel ASCII, 'a' memiliki ASCII code 6116 (a)
 
 # 21
-  P terdapat pada biner 101 dan 0000
-
-  R terdapat pada biner 101 dan 0010
-
-  I  terdapat pada biner 100 dan 1001
   
-  N terdapat pada biner 100 dan 1110
-  
-  T terdapat pada biner 101 dan 0100
-  
-  Space terdapat pada biner 010 dan 0000
-  
-  X terdapat pada biner  101 1000
+    P terdapat pada biner 101 dan 0000
+    R terdapat pada biner 101 dan 0010
+    I  terdapat pada biner 100 dan 1001
+    N terdapat pada biner 100 dan 1110
+    T terdapat pada biner 101 dan 0100
+    Space terdapat pada biner 010 dan 0000
+    X terdapat pada biner  101 1000
