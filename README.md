@@ -1,4 +1,6 @@
-# Alsahera Ramadhan Nesa 3124521023
+# Alsahera Ramadhan Nesa 
+
+3124521023
 # 1. 
 a. Bilangan biner adalah bilangan yang berbasis 2
 # 2.
