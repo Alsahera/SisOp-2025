@@ -1,6 +1,4 @@
-# Alsahera Ramadhan Nesa 
-
-3124521023
+# Alsahera Ramadhan Nesa 3124521023
 # 1. 
 a. Bilangan biner adalah bilangan yang berbasis 2
 # 2.
@@ -24,20 +22,20 @@ a. Bilangan biner adalah bilangan yang berbasis 2
 a.	10101010 
 
     Langkah Langkah: 
-    1 × 27  + 0 × 26 + 1 × 25 + 0 × 24+ 1 × 23 + 0 × 22+ 1 × 21+ 0 × 20
+    1 × 2^7 + 0 × 2^6 + 1 × 2^5 + 0 × 2^4+ 1 × 2^3 + 0 × 2^2+ 1 × 2^1+ 0 × 2^0
     = 128 + 0 + 32 + 0 + 8 + 0 + 2 + 0 
     = 170 
     Hasil: 10101010 = 170 (a)
 
 # 4
-a.	101 011 111 0012 
+a.	101 011 111 001_2 
 
     Konversi: 
     101 = 5 
     011 = 3 
     111 = 7 
     001 = 1 
-    Hasil: 101 011 111 0012 = 5371 (a)
+    Hasil: 101 011 111 001_2 = 5371 (a)
 
 # 5
 a.	2170 
@@ -50,7 +48,7 @@ a.	2170
     Hasil: 2170 = 010 001 111 000 (a)
 
 # 6
-a.	178010 
+a.	1780_10 
 
     Langkah-langkah: 
     1780 ÷ 16 = 111 Sisa   4 
@@ -59,9 +57,9 @@ a.	178010
     Hasil: 178010 = 06F4 (a)
 
 # 7
-a.	ABCD16 
+a.	ABCD_16 
 
-    Perhitungan: A × 163 + B × 162 + C × 161 + D × 160
+    Perhitungan: A × 16^3 + B × 162 + C × 161 + D × 160
     = 10 × 4096 + 11 × 256 + 12 × 16 + 13 × 1 
     = 40960 + 2816 + 192 + 13 = 43981
     Hasil: ABCD16 = 43981 (a)
