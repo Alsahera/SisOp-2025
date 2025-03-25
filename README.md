@@ -7,4 +7,4 @@ Kelas: Teknik Informatika A PSDKU Lamongan
 - [Pertemuan 3 : Flowchart](pertemuan3.md)
 - [Pertemuan 4 : Resume](pertemuan4.md)
 - [Pertemuan 5 : Resume](pertemuan5.md)
-- [Pertemuan 5 : flops-iops](flopsiops)
+- [Pertemuan 5 : flops-iops](flops-iops)
