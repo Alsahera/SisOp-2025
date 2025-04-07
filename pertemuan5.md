@@ -66,61 +66,7 @@ Pada era awal komputer, seiring dengan berkembangnya perangkat keras dan perangk
  
 # A.4 XDS-940
 
-## 1. Asal & Tujuan Sistem
-- Dikembangkan di **University of California, Berkeley** pada **awal 1960-an**.
-- Merupakan sistem **time-sharing** (berbagi waktu), yang memungkinkan **banyak pengguna** mengakses komputer secara **interaktif dan bersamaan**.
-
-## 2. Manajemen Memori
-- Menggunakan **paging** untuk **relokasi** memori proses.
-- **Tidak** menggunakan **demand paging** (data hanya dipindahkan saat dibutuhkan).
-- **Memori Virtual per Proses**: 16 KB kata.
-- **Memori Fisik**: 64 KB kata.
-- **Ukuran halaman**: 2 KB kata.
-- **Tabel halaman disimpan di register** → akses cepat terhadap pemetaan memori.
-- Karena memori fisik lebih besar, **banyak proses bisa disimpan sekaligus**.
-- **Page sharing** diaktifkan untuk kode yang **read-only dan reentrant**, memungkinkan efisiensi ruang memori.
-
-## 3. Manajemen Proses & Time-Sharing
-- Proses disimpan di **drum memory** dan **swap** ke/dari memori utama sesuai kebutuhan.
-- Mendukung **sistem call untuk proses**:
-  - Membuat (`create`)
-  - Memulai (`start`)
-  - Menunda (`suspend`)
-  - Menghapus (`destroy`)
-- **Proses bisa membuat subprocess**, membentuk **struktur pohon** (tree):
-  - Akar (root): proses utama
-  - Node anak: subprocess
-  - Subprocess bisa menciptakan anak lagi → hierarki proses
-- Proses dapat **berbagi memori** untuk keperluan:
-  - **Komunikasi antarproses**
-  - **Sinkronisasi**
-
-## 4. Keamanan & Mode Eksekusi
-- Menambahkan **user-monitor mode**:
-  - **Mode pengguna**: terbatas, tidak bisa menjalankan instruksi berbahaya.
-  - **Mode sistem/monitor**: memiliki akses penuh ke sumber daya.
-- **Instruksi privileged (istimewa)**: seperti I/O dan halt hanya bisa dijalankan di mode sistem.
-- Jika instruksi privileged dijalankan di mode pengguna → terjadi **trap ke sistem operasi**.
-
-## 5. Manajemen Berkas (File System)
-- File disimpan di **drum memory** dalam **blok 256 kata**.
-- **Bitmap** digunakan untuk melacak blok yang kosong/terpakai.
-- Setiap file memiliki:
-  - **Blok indeks**: berisi pointer ke blok data.
-  - **Blok data**: tempat isi file disimpan.
-- Jika satu blok indeks tidak cukup, blok tambahan akan **dirantai (chained)** untuk memperluas.
-
-## 6. Perangkat Keras dan Modifikasi
-- Dibangun dari **XDS-930** yang telah dimodifikasi:
-  - Penambahan fitur untuk mendukung sistem operasi (seperti mode eksekusi, sistem call).
-  - Penggunaan paging sederhana.
-
-## Kesimpulan
-Sistem operasi **XDS-940** adalah **pendahulu dari sistem time-sharing modern**, dengan beberapa fitur canggih untuk zamannya:
-- Penggunaan **paging** dan **relokasi memori**
-- **Manajemen proses bertingkat (berstruktur pohon)**
-- **Sistem berkas dengan indeks dan manajemen blok**
-- **Keamanan eksekusi** melalui mode pengguna dan sistem
+XDS-940 adalah sistem operasi *time-sharing* awal yang dikembangkan di UC Berkeley dan menawarkan pendekatan modern dalam manajemen memori melalui *paging* untuk relokasi, bukan *demand paging*. Dengan memori virtual lebih kecil dari memori fisik, sistem ini mampu menjalankan banyak proses pengguna secara bersamaan, bahkan memungkinkan berbagi kode antar proses. Dibangun di atas komputer XDS-930 yang telah dimodifikasi, sistem ini menambahkan kemampuan mode pengguna, instruksi terprivilegiasi, dan *system call*. Dukungan untuk manajemen proses secara hierarkis dan komunikasi antar proses melalui berbagi memori menjadikan XDS-940 salah satu pelopor sistem operasi yang mendukung *multitasking* dan modularitas proses secara fleksibel.
 
 # A.5 THE
 
@@ -154,3 +100,18 @@ TOPS-20, sistem operasi warisan dari TENEX, menjadi puncak inovasi *time-sharing
 
 Perkembangan komputer pribadi dimulai dari mesin sederhana yang menjalankan satu program pada satu waktu. CP/M menjadi standar awal bagi komputer berbasis Intel 8080, menyediakan antarmuka teks dan fungsionalitas dasar. Namun, kehadiran IBM PC membawa perubahan besar. MS-DOS, hasil kerja sama IBM dengan Microsoft, menjadi penerus CP/M untuk prosesor 16-bit Intel 8086. Dengan fitur yang lebih kaya namun tetap sederhana, MS-DOS mendominasi era awal komputer pribadi meski tanpa dukungan fitur modern seperti proteksi memori.
 
+# A.12 Sistem Operasi Macintosh dan Windows
+
+Kemunculan CPU 16-bit mendorong sistem operasi komputer pribadi menjadi lebih canggih. Apple Macintosh menjadi pelopor GUI untuk pengguna rumahan pada 1984, namun kalah saing dengan Windows yang berjalan di berbagai merek komputer. Seiring perkembangan teknologi, komputer pribadi menyamai kemampuan mainframe, menggeser minikomputer dan membuka era baru untuk server. Kini, Windows dan Mac OS terus bersaing, sementara Linux makin diminati oleh kalangan teknis dan bahkan digunakan untuk pendidikan global melalui proyek seperti OLPC.
+
+# A.13 Mach
+
+Mach adalah sistem operasi yang dikembangkan di Carnegie Mellon University (CMU) pada pertengahan 1980-an sebagai penerus dari sistem Accent. Meskipun mengambil konsep komunikasi dari Accent, banyak fitur penting Mach—seperti manajemen memori virtual dan sistem thread—dibangun dari nol. Tujuan Mach adalah untuk tetap kompatibel dengan UNIX (khususnya 4.3 BSD), mendukung komputasi paralel dan terdistribusi, serta memiliki kernel yang lebih sederhana dan fleksibel.
+
+Awalnya, Mach dikembangkan dengan menggantikan bagian-bagian kernel BSD secara bertahap. Pada 1986, sistem ini sudah berjalan di mesin DEC VAX, kemudian diperluas ke arsitektur lain seperti SUN dan IBM. Puncaknya adalah Mach 3, yang memperkenalkan arsitektur microkernel: semua fitur UNIX dipindahkan ke server user-mode, sementara kernel hanya menangani fungsi dasar seperti manajemen memori dan komunikasi antar proses.
+
+Pendekatan ini memungkinkan Mach untuk menjalankan beberapa sistem operasi sekaligus di atas satu kernel, mirip seperti konsep mesin virtual. Komunikasi antar proses dilakukan secara eksklusif lewat pesan, yang juga diintegrasikan dengan sistem memori virtual untuk efisiensi. Mach juga mendukung multiprocessing secara alami, dengan penggunaan thread ringan di dalam satu proses.
+
+Pada akhir 1980-an, Mach menarik perhatian industri saat dijadikan basis untuk sistem OSF/1 oleh Open Software Foundation dan juga NeXTSTEP—sistem yang dikembangkan oleh Steve Jobs setelah meninggalkan Apple. Walaupun OSF/1 dan NeXTSTEP tidak mendominasi pasar, kernel Mach tetap hidup di balik layar. Kini, ia menjadi bagian inti dari kernel XNU milik Apple, yang digunakan dalam macOS dan iOS, meskipun sudah mengalami banyak modifikasi.
+
+# A.14 Sistem Berbasis Kemampuan—Hydra dan CAP
