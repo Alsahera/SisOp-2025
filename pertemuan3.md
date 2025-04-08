@@ -1,5 +1,5 @@
 # Flowchart: Proses Menyalakan PC Sampai Siap Digunakan
-![flowchart](https://github.com/Alsahera/SisOp-2025/blob/main/flowchart.png)
+![flowchart](https://github.com/Alsahera/SisOp-2025/blob/main/flowchart.jpg)
 ## Start
 Proses dimulai saat pengguna menyalakan komputer.
 
