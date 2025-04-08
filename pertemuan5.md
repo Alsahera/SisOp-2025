@@ -114,4 +114,26 @@ Pendekatan ini memungkinkan Mach untuk menjalankan beberapa sistem operasi sekal
 
 Pada akhir 1980-an, Mach menarik perhatian industri saat dijadikan basis untuk sistem OSF/1 oleh Open Software Foundation dan juga NeXTSTEP—sistem yang dikembangkan oleh Steve Jobs setelah meninggalkan Apple. Walaupun OSF/1 dan NeXTSTEP tidak mendominasi pasar, kernel Mach tetap hidup di balik layar. Kini, ia menjadi bagian inti dari kernel XNU milik Apple, yang digunakan dalam macOS dan iOS, meskipun sudah mengalami banyak modifikasi.
 
-# A.14 Sistem Berbasis Kemampuan—Hydra dan CAP
+# A.14 Sistem Berbasis Kemampuan—Hydra dan CAP  
+
+Dalam bagian ini, kami meninjau dua sistem perlindungan berbasis kapabilitas. Kedua sistem ini berbeda dalam tingkat kompleksitas dan jenis kebijakan yang dapat diterapkan di atasnya. Meskipun tidak ada dari kedua sistem ini yang digunakan secara luas, keduanya memberikan landasan yang menarik untuk menguji teori-teori perlindungan.
+
+## A.14.1 Hydra  
+
+Hydra adalah sistem operasi eksperimental yang menerapkan konsep perlindungan berbasis kapabilitas, di mana akses ke objek dan operasi dikontrol melalui token khusus. Sistem ini tidak hanya mendukung hak akses standar seperti baca, tulis, dan eksekusi, tetapi juga memungkinkan pengguna untuk mendefinisikan hak-hak tambahan sesuai kebutuhan mereka sendiri. Yang unik dari Hydra adalah kemampuannya untuk melakukan amplifikasi hak akses, yaitu memberikan prosedur tertentu hak tambahan secara sementara agar bisa menjalankan fungsinya terhadap objek tanpa memberikan hak penuh kepada proses pemanggil. Mekanisme ini memungkinkan implementasi tipe data abstrak yang aman, dengan kontrol ketat atas siapa yang bisa mengakses atau memodifikasi data internal.
+
+Hydra juga dirancang untuk mengatasi masalah kepercayaan antar subsistem, seperti ketika sebuah program layanan digunakan oleh banyak pengguna yang saling tidak percaya. Sistem ini memastikan bahwa layanan tidak dapat menyalahgunakan data pengguna, dan sebaliknya, pengguna juga tidak bisa mengakses data internal layanan. Dengan arsitektur modular di atas kernel perlindungan yang kuat, desainer subsistem bisa menetapkan kebijakan aksesnya sendiri, namun enforcement-nya tetap dikendalikan oleh sistem kapabilitas Hydra. Walau tidak banyak digunakan di dunia nyata, Hydra menjadi contoh penting dalam pengembangan dan pengujian teori-teori perlindungan dalam sistem operasi.
+
+## A.14.2 Cambridge CAP System  
+
+Sistem perlindungan Cambridge CAP mengambil pendekatan yang berbeda dari Hydra dengan menyajikan model yang lebih sederhana secara permukaan, namun tetap kuat dalam menyediakan keamanan terhadap objek pengguna. CAP membagi kapabilitas menjadi dua jenis: data capability, yang memberikan akses dasar seperti baca, tulis, dan eksekusi melalui dukungan langsung dari microcode; serta software capability, yang lebih fleksibel dan diinterpretasikan melalui prosedur khusus yang dilindungi.
+
+Software capability memungkinkan mekanisme amplifikasi hak secara terbatas, di mana proses bisa diberikan akses sementara untuk memodifikasi isi kapabilitas demi menjalankan operasi tertentu. Namun, sistem tetap menjaga batasan keamanan melalui verifikasi tipe dan dengan tidak mempercayai sembarang kode di luar microcode. Ini menjamin bahwa sekalipun ada prosedur pengguna yang tidak aman, kerusakan yang ditimbulkan hanya berdampak pada subsistemnya sendiri dan tidak memengaruhi sistem secara keseluruhan.
+
+Yang membedakan CAP dari Hydra adalah pendekatan pembelajarannya. Jika Hydra menyediakan dokumentasi dan pustaka prosedur siap pakai, CAP menuntut para perancang subsistem untuk memahami secara mendalam prinsip-prinsip perlindungan karena sistem ini tidak menyediakan pustaka atau antarmuka tingkat tinggi. Ini membuat CAP lebih sebagai platform fleksibel untuk eksperimen perlindungan daripada sistem siap pakai bagi pengguna umum.
+
+# A.15 Other System  
+
+Selain sistem-sistem besar yang terkenal, ada banyak sistem operasi lain yang pernah memainkan peran penting dalam sejarah komputasi. Contohnya, MCP dari Burroughs adalah pelopor karena merupakan sistem operasi pertama yang ditulis dalam bahasa pemrograman sistem, serta mendukung segmentasi dan arsitektur multi-prosesor. SCOPE, sistem operasi untuk CDC 6600, juga menunjukkan kemampuan luar biasa dalam menangani koordinasi proses di lingkungan multi-CPU.
+
+Namun, seperti banyak bagian dari teknologi, sistem operasi pun mengalami pergantian. Banyak OS yang pada masanya sangat berguna, perlahan tergeser oleh sistem baru yang lebih canggih, mendukung perangkat keras yang lebih modern, lebih ramah pengguna, atau lebih sukses dalam pemasaran. Sejarah sistem operasi penuh dengan contoh seperti ini, dan pola ini hampir pasti akan terus berulang di masa depan.
