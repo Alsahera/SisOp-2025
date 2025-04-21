@@ -36,6 +36,10 @@ Dengan:
 - User-level threads: dikelola oleh pustaka pengguna, tanpa interaksi langsung dengan kernel.
 - Kernel-level: bisa paralel, cocok untuk blocking operations.
 
+**Kapan lebih baik?**
+- User-level lebih efisien pada sistem dengan banyak thread ringan tanpa sering blocking.
+- Kernel-level lebih baik saat thread sering menunggu I/O, karena kernel bisa menjadwalkan thread lain.
+
 ### 4.5
 **Context-switch antar kernel threads:**
 1. Simpan state lama (register, PC).
@@ -48,46 +52,67 @@ Dengan:
 - Proses: memori, PCB lengkap.
 
 ### 4.7
-**Thread real-time harus terikat ke LWP** agar dijadwalkan tepat waktu.
-
-## Exercises
+**Ya, thread real-time perlu diikat ke LWP (Lightweight Process).** Karena hanya LWP yang dijadwalkan oleh kernel, pengikatan memastikan thread real-time mendapatkan jaminan eksekusi yang tepat waktu.
 
 ### 4.8
 Multithreading tidak efektif pada:
-- Program sederhana.
-- Akses data bersama intensif.
+- Program sederhana yang hanya membaca satu file kecil dan mencetak isi ke layar.
+- Aplikasi dengan banyak akses ke resource bersama (misalnya counter global), yang menyebabkan banyak thread saling menunggu (contention).
 
 ### 4.9
-Multithreading berguna untuk I/O blocking: thread lain bisa tetap berjalan.
+Multithreaded dengan multiple kernel threads bisa lebih baik jika satu thread melakukan I/O blocking, karena thread lain masih bisa dijadwalkan dan berjalan oleh OS.
 
 ### 4.10
-- a. ❌
-- b. ✅
-- c. ✅
-- d. ❌
+**Komponen yang shared antar thread:**
+- a. Register values: ❌ Tidak dibagi
+- b. Heap memory: ✅ Dibagi
+- c. Global variables: ✅ Dibagi
+- d. Stack memory: ❌ Masing-masing thread punya stack sendiri
 
 ### 4.11
-Bisa lebih baik jika menggunakan model one-to-one atau many-to-many.
+Ya. Di multiprocessor, banyak user-level threads bisa mendapat performa lebih baik karena bisa dijadwalkan secara paralel oleh kernel (tergantung model thread digunakan). Tapi pada sistem one-to-one atau many-to-many, biasanya butuh kernel threads agar paralel.
 
 ### 4.12
-Chrome gunakan proses untuk keamanan dan stabilitas.
+Membuka tiap tab Chrome sebagai proses memberi isolasi lebih baik (keamanan, crash handling). Jika pakai thread, satu thread crash bisa hancurkan seluruh aplikasi. Jadi proses > thread untuk keamanan dan stabilitas.
+
 
 ### 4.13
-Concurrency tanpa paralelisme: sistem single-core dengan interleaving.
+Concurrency tanpa parallelism bisa terjadi, contohnya pada sistem dengan satu core: thread tampak berjalan bersamaan tapi sebenarnya bergantian (via context-switching).
 
 ### 4.14
-Menggunakan Amdahl's Law:
-- Hasil dipecah sesuai soal.
+**Gunakan Amdahl’s Law untuk menghitung speedup dengan 60% kode yang bisa diparalelkan.**
+
+Rumus Amdahl’s Law:
+```math
+\text{Speedup} = \frac{1}{(1 - P) + \frac{P}{N}}
+```
+
+Dengan:
+- \( P = 0.6 \) (60% bagian paralel)
+- \( N \) = jumlah core
+
+#### a. Untuk 2 core:
+```math
+\text{Speedup} = \frac{1}{0.4 + \frac{0.6}{2}} = \frac{1}{0.4 + 0.3} = \frac{1}{0.7} \approx 1.43
+```
+
+#### b. Untuk 4 core:
+```math
+\text{Speedup} = \frac{1}{0.4 + \frac{0.6}{4}} = \frac{1}{0.4 + 0.15} = \frac{1}{0.55} \approx 1.82
+```
 
 ### 4.15
-- a. Task
-- b. Data
-- c. Task
-- d. Data
-- e. Campuran
+**Task vs Data Parallelism:**
+- a. Thumbnail generator: Task parallelism
+- b. Matrix transpose: Data parallelism
+- c. Network I/O (read/write): Task
+- d. Fork-join array summation: Data
+- e. Grand Central Dispatch (GCD): Task, kadang hybrid
 
 ### 4.16
-Gunakan 4 thread CPU + 2 thread I/O.
+**I/O hanya dilakukan di awal dan akhir (sequential), jadi:**
+- Input/output: 1 thread cukup untuk masing-masing.
+- CPU-intensive: 4 threads (jumlah core tersedia) untuk memaksimalkan paralelisme di sistem 4-core.  
 
 ### 4.17
 Total proses dan thread tergantung posisi `fork()` dan `thread_create()`.
