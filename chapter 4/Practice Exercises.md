@@ -1,6 +1,4 @@
-# Chapter 4 - Threads & Concurrency: Exercises and Programming Problems
-
-## Practice Exercises
+# 4. Practice Exercises
 ### 4.1
 **Contoh program yang mendapat keuntungan dari multithreading:**
 1. Web server: Menggunakan satu thread untuk tiap permintaan klien memungkinkan server menangani banyak permintaan secara bersamaan.  
