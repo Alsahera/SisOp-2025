@@ -8,23 +8,18 @@
 3. Editor teks seperti word processor: Thread terpisah untuk menangani input keyboard, spell-checking, dan auto-save, agar responsif dan efisien.  
 
 ### 4.2 Amdahl’s Law Calculation
-
 **Gunakan Amdahl’s Law untuk menghitung speedup dengan 60% kode yang bisa diparalelkan.**
-
 Rumus Amdahl’s Law:
 ```math
 \text{Speedup} = \frac{1}{(1 - P) + \frac{P}{N}}
 ```
-
 Dengan:
 - \( P = 0.6 \) (60% bagian paralel)
 - \( N \) = jumlah core
-
 #### a. Untuk 2 core:
 ```math
 \text{Speedup} = \frac{1}{0.4 + \frac{0.6}{2}} = \frac{1}{0.4 + 0.3} = \frac{1}{0.7} \approx 1.43
 ```
-
 #### b. Untuk 4 core:
 ```math
 \text{Speedup} = \frac{1}{0.4 + \frac{0.6}{4}} = \frac{1}{0.4 + 0.15} = \frac{1}{0.55} \approx 1.82
@@ -33,11 +28,12 @@ Dengan:
 
 
 ### 4.3
-**Web server:** menggunakan *task parallelism* karena tiap thread menangani tugas berbeda.
+**Web server:** menggunakan *task parallelism* karena setiap thread menangani permintaan yang berbeda, bukan melakukan operasi yang sama pada data berbeda.
+
 
 ### 4.4
 **User-level threads vs Kernel-level threads:**
-- User-level: efisien, cepat dibuat.
+- User-level threads: dikelola oleh pustaka pengguna, tanpa interaksi langsung dengan kernel.
 - Kernel-level: bisa paralel, cocok untuk blocking operations.
 
 ### 4.5
