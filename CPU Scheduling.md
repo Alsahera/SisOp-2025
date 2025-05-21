@@ -185,20 +185,20 @@ Perbandingan waktu tunggu rata-rata:
 
 Waktu turnaround = waktu selesai - waktu kedatangan
 
-1. P₁: 15 - 0 = 15
-2. P₂: 110 - 0 = 110
-3. P₃: 40 - 20 = 20
-4. P₄: 90 - 25 = 65
-5. P₅: 50 - 45 = 5
-6. P₆: 70 - 55 = 15
+- P₁: 15 - 0 = 15
+- P₂: 110 - 0 = 110
+- P₃: 40 - 20 = 20
+- P₄: 90 - 25 = 65
+- P₅: 50 - 45 = 5
+- P₆: 70 - 55 = 15
 
 ### c. Waktu Tunggu untuk Setiap Proses
 
 Waktu tunggu = waktu turnaround - burst time
 
-1. P₁: 15 - 15 = 0
-2. P₂: 110 - 20 = 90
-3. P₃: 20 - 20 = 0
-4. P₄: 65 - 20 = 45
-5. P₅: 5 - 5 = 0
-6. P₆: 15 - 15 = 0
+- P₁: 15 - 15 = 0
+- P₂: 110 - 20 = 90
+- P₃: 20 - 20 = 0
+- P₄: 65 - 20 = 45
+- P₅: 5 - 5 = 0
+- P₆: 15 - 15 = 0
