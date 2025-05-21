@@ -146,3 +146,90 @@ Rata-rata waktu tunggu untuk setiap algoritma:
 (6 + 9 + 4 + 13 + 12) / 5 = 44 / 5 = 8,8 ms
 
 Berdasarkan perhitungan di atas, algoritma **SJF (Shortest Job First)** menghasilkan rata-rata waktu tunggu minimum sebesar 5,2 ms.
+
+
+
+# 5.18  
+
+## Tabel Proses
+
+| Proses | Prioritas | Burst Time | Arrival Time |
+|--------|-----------|------------|-------------|
+| P₁     | 8         | 15         | 0           |
+| P₂     | 3         | 20         | 0           |
+| P₃     | 4         | 20         | 20          |
+| P₄     | 4         | 20         | 25          |
+| P₅     | 5         | 5          | 45          |
+| P₆     | 5         | 15         | 55          |
+
+Catatan:
+- Nilai prioritas lebih tinggi berarti prioritas lebih tinggi
+- Quantum = 10 unit waktu
+- Untuk proses dengan prioritas sama, digunakan algoritma Round Robin
+- Jika proses dipreempt, proses tersebut diletakkan di akhir antrian
+
+## a. Diagram Gantt untuk Algoritma Penjadwalan Preemptive Priority Round-Robin
+
+Berikut adalah eksekusi berdasarkan waktu:
+
+- t=0: P₁ (prioritas 8) dan P₂ (prioritas 3) tiba. P₁ dieksekusi karena memiliki prioritas tertinggi.
+- t=10: P₁ telah berjalan selama 10 unit (quantum). Sisa burst time P₁ = 5. Tidak ada proses lain dengan prioritas lebih tinggi, jadi P₁ melanjutkan eksekusi.
+- t=15: P₁ selesai. P₂ (prioritas 3) dieksekusi.
+- t=20: P₃ (prioritas 4) tiba. Karena P₃ memiliki prioritas lebih tinggi dari P₂, P₂ dipreempt dan P₃ dieksekusi. Sisa burst time P₂ = 15.
+- t=25: P₄ (prioritas 4) tiba. P₃ sudah berjalan selama 5 unit. Karena P₃ dan P₄ memiliki prioritas sama (4), mereka akan dijadwalkan secara Round Robin.
+- t=30: P₃ telah berjalan selama 10 unit (quantum). P₄ mulai dieksekusi. Sisa burst time P₃ = 10.
+- t=40: P₄ telah berjalan selama 10 unit (quantum). P₃ melanjutkan eksekusi. Sisa burst time P₄ = 10.
+- t=45: P₅ (prioritas 5) tiba. Karena P₅ memiliki prioritas lebih tinggi dari P₃, P₃ dipreempt dan P₅ dieksekusi. Sisa burst time P₃ = 5.
+- t=50: P₅ selesai. P₃ melanjutkan eksekusi.
+- t=55: P₆ (prioritas 5) tiba. P₃ telah berjalan selama 5 unit sejak dipreempt terakhir kali. Karena P₆ memiliki prioritas lebih tinggi dari P₃, P₃ dipreempt dan P₆ dieksekusi. Sisa burst time P₃ = 0.
+- t=65: P₆ telah berjalan selama 10 unit (quantum). Sisa burst time P₆ = 5.
+- t=70: P₆ selesai. P₄ melanjutkan eksekusi. Sisa burst time P₄ = 0.
+- t=80: P₄ selesai. P₂ melanjutkan eksekusi.
+- t=95: P₂ selesai.
+
+Berikut diagram Gantt yang menggambarkan penjadwalan:
+
+```
+      P₁           P₂      P₃     P₄     P₃  P₅  P₃    P₆     P₄      P₂     
++-------------+------+----------+------+----+---+----+------+------+--------+
+|             |      |          |      |    |   |    |      |      |        |
++-------------+------+----------+------+----+---+----+------+------+--------+
+0            15     20         30     40   45  50   55     70     80       95
+```
+
+## b. Waktu Turnaround untuk Setiap Proses
+
+Waktu turnaround = Waktu selesai - Waktu kedatangan
+
+- P₁: 15 - 0 = 15
+- P₂: 95 - 0 = 95
+- P₃: 55 - 20 = 35
+- P₄: 80 - 25 = 55
+- P₅: 50 - 45 = 5
+- P₆: 70 - 55 = 15
+
+## c. Waktu Tunggu untuk Setiap Proses
+
+Waktu tunggu = Waktu turnaround - Burst time
+
+- P₁: 15 - 15 = 0
+- P₂: 95 - 20 = 75
+- P₃: 35 - 20 = 15
+- P₄: 55 - 20 = 35
+- P₅: 5 - 5 = 0
+- P₆: 15 - 15 = 0
+
+## Ringkasan
+
+| Proses | Turnaround Time | Waiting Time |
+|--------|----------------|-------------|
+| P₁     | 15             | 0           |
+| P₂     | 95             | 75          |
+| P₃     | 35             | 15          |
+| P₄     | 55             | 35          |
+| P₅     | 5              | 0           |
+| P₆     | 15             | 0           |
+
+Rata-rata Turnaround Time = (15 + 95 + 35 + 55 + 5 + 15) / 6 = 220 / 6 = 36,67
+
+Rata-rata Waiting Time = (0 + 75 + 15 + 35 + 0 + 0) / 6 = 125 / 6 = 20,83
