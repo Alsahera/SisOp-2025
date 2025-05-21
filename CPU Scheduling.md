@@ -1,235 +1,204 @@
 # CPU Scheduling
-# 5.17  
+# 5.17 Consider the following set of processes, with the length of the CPU burst given in milliseconds:  
 
-## Tabel Proses
+| Proses | Burst Time | Prioritas |
+|--------|------------|-----------|
+| P₁     | 5          | 4         |
+| P₂     | 3          | 1         |
+| P₃     | 1          | 2         |
+| P₄     | 7          | 2         |
+| P₅     | 4          | 3         |
 
-| Proses | Burst Time (ms) | Prioritas |
-|--------|----------------|-----------|
-| P₁     | 5              | 4         |
-| P₂     | 3              | 1         |
-| P₃     | 1              | 2         |
-| P₄     | 7              | 2         |
-| P₅     | 4              | 3         |
+*Catatan: Semua proses tiba pada waktu 0 dengan urutan P₁, P₂, P₃, P₄, P₅. Prioritas yang lebih tinggi memiliki angka yang lebih besar.*
 
-Semua proses diasumsikan tiba pada waktu 0 dengan urutan P₁, P₂, P₃, P₄, P₅.
+## a. Gantt Chart untuk Berbagai Algoritma Penjadwalan
 
-## a. Diagram Gantt untuk Berbagai Algoritma Penjadwalan
-
-### 1. FCFS (First Come First Serve)
-
+### 1. First-Come, First-Served (FCFS)
 ```
- P₁      P₂     P₃    P₄        P₅    
-+------+-----+----+---------+------+
-|      |     |    |         |      |
-+------+-----+----+---------+------+
-0      5     8    9         16     20
+┌────────┬────────┬────────┬────────┬────────┐
+│   P₁   │   P₂   │   P₃   │   P₄   │   P₅   │
+└────────┴────────┴────────┴────────┴────────┘
+0        5        8        9        16       20
 ```
 
-Dengan FCFS, proses dieksekusi sesuai urutan kedatangan tanpa preemption.
-
-### 2. SJF (Shortest Job First)
-
+### 2. Shortest Job First (SJF) non-preemptive
 ```
- P₃   P₂     P₅      P₁      P₄       
-+----+-----+------+------+---------+
-|    |     |      |      |         |
-+----+-----+------+------+---------+
-0    1     4      8      13        20
+┌────────┬────────┬────────┬────────┬────────┐
+│   P₃   │   P₂   │   P₅   │   P₁   │   P₄   │
+└────────┴────────┴────────┴────────┴────────┘
+0        1        4        8        13       20
 ```
 
-Dengan SJF, proses dengan burst time terpendek dieksekusi terlebih dahulu.
+### 3. Non-preemptive Priority (angka prioritas lebih besar = prioritas lebih tinggi)
+```
+┌────────┬────────┬────────┬────────┬────────┐
+│   P₁   │   P₅   │   P₃   │   P₄   │   P₂   │
+└────────┴────────┴────────┴────────┴────────┘
+0        5        9        10       17       20
+```
+
+### 4. Round Robin (quantum = 2)
+```
+┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┐
+│   P₁   │   P₂   │   P₃   │   P₄   │   P₅   │   P₁   │   P₂   │   P₄   │   P₅   │   P₄   │
+└────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘
+0        2        4        5        7        9        11       12       14       16       20
+```
+
+## b. Waktu Turnaround untuk Setiap Proses
+
+Waktu turnaround = waktu selesai - waktu kedatangan
+
+### 1. FCFS
+- P₁: 5 - 0 = 5
+- P₂: 8 - 0 = 8
+- P₃: 9 - 0 = 9
+- P₄: 16 - 0 = 16
+- P₅: 20 - 0 = 20
+- **Rata-rata waktu turnaround: (5 + 8 + 9 + 16 + 20) / 5 = 11.6**
+
+### 2. SJF
+- P₁: 13 - 0 = 13
+- P₂: 4 - 0 = 4
+- P₃: 1 - 0 = 1
+- P₄: 20 - 0 = 20
+- P₅: 8 - 0 = 8
+- **Rata-rata waktu turnaround: (13 + 4 + 1 + 20 + 8) / 5 = 9.2**
 
 ### 3. Non-preemptive Priority
+- P₁: 5 - 0 = 5
+- P₂: 20 - 0 = 20
+- P₃: 10 - 0 = 10
+- P₄: 17 - 0 = 17
+- P₅: 9 - 0 = 9
+- **Rata-rata waktu turnaround: (5 + 20 + 10 + 17 + 9) / 5 = 12.2**
 
-Catatan: Nilai prioritas yang lebih besar berarti prioritas lebih tinggi.
-
-```
- P₁      P₅      P₃,P₄        P₂    
-+------+------+------------+-----+
-|      |      |            |     |
-+------+------+------------+-----+
-0      5      9            17    20
-```
-
-Dengan prioritas non-preemptive, proses dengan nilai prioritas tertinggi dieksekusi terlebih dahulu. P₃ dan P₄ memiliki prioritas yang sama (2), tetapi P₃ dieksekusi lebih dulu karena tiba lebih awal.
-
-### 4. RR (Round Robin) dengan quantum = 2
-
-```
- P₁    P₂    P₃    P₄    P₅    P₁    P₂    P₄    P₅    P₄    P₄   
-+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+----+
-|     |     |     |     |     |     |     |     |     |     |    |
-+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+----+
-0     2     4     5     7     9     11    12    14    16    18   20
-```
-
-Dengan Round Robin (quantum = 2), setiap proses mendapatkan jatah waktu CPU maksimal 2 ms secara bergiliran.
-
-## b. Waktu Turnaround untuk Setiap Proses
-
-Waktu turnaround = Waktu selesai - Waktu kedatangan
-
-### FCFS
-- P₁: 5 - 0 = 5 ms
-- P₂: 8 - 0 = 8 ms
-- P₃: 9 - 0 = 9 ms
-- P₄: 16 - 0 = 16 ms
-- P₅: 20 - 0 = 20 ms
-
-### SJF
-- P₁: 13 - 0 = 13 ms
-- P₂: 4 - 0 = 4 ms
-- P₃: 1 - 0 = 1 ms
-- P₄: 20 - 0 = 20 ms
-- P₅: 8 - 0 = 8 ms
-
-### Non-preemptive Priority
-- P₁: 5 - 0 = 5 ms
-- P₂: 20 - 0 = 20 ms
-- P₃: 10 - 0 = 10 ms
-- P₄: 17 - 0 = 17 ms
-- P₅: 9 - 0 = 9 ms
-
-### Round Robin (quantum = 2)
-- P₁: 11 - 0 = 11 ms
-- P₂: 12 - 0 = 12 ms
-- P₃: 5 - 0 = 5 ms
-- P₄: 20 - 0 = 20 ms
-- P₅: 16 - 0 = 16 ms
+### 4. Round Robin (RR)
+- P₁: 11 - 0 = 11
+- P₂: 12 - 0 = 12
+- P₃: 5 - 0 = 5
+- P₄: 20 - 0 = 20
+- P₅: 16 - 0 = 16
+- **Rata-rata waktu turnaround: (11 + 12 + 5 + 20 + 16) / 5 = 12.8**
 
 ## c. Waktu Tunggu untuk Setiap Proses
 
-Waktu tunggu = Waktu turnaround - Burst time
+Waktu tunggu = waktu turnaround - burst time
 
-### FCFS
-- P₁: 5 - 5 = 0 ms
-- P₂: 8 - 3 = 5 ms
-- P₃: 9 - 1 = 8 ms
-- P₄: 16 - 7 = 9 ms
-- P₅: 20 - 4 = 16 ms
+### 1. FCFS
+- P₁: 5 - 5 = 0
+- P₂: 8 - 3 = 5
+- P₃: 9 - 1 = 8
+- P₄: 16 - 7 = 9
+- P₅: 20 - 4 = 16
+- **Rata-rata waktu tunggu: (0 + 5 + 8 + 9 + 16) / 5 = 7.6**
 
-### SJF
-- P₁: 13 - 5 = 8 ms
-- P₂: 4 - 3 = 1 ms
-- P₃: 1 - 1 = 0 ms
-- P₄: 20 - 7 = 13 ms
-- P₅: 8 - 4 = 4 ms
+### 2. SJF
+- P₁: 13 - 5 = 8
+- P₂: 4 - 3 = 1
+- P₃: 1 - 1 = 0
+- P₄: 20 - 7 = 13
+- P₅: 8 - 4 = 4
+- **Rata-rata waktu tunggu: (8 + 1 + 0 + 13 + 4) / 5 = 5.2**
 
-### Non-preemptive Priority
-- P₁: 5 - 5 = 0 ms
-- P₂: 20 - 3 = 17 ms
-- P₃: 10 - 1 = 9 ms
-- P₄: 17 - 7 = 10 ms
-- P₅: 9 - 4 = 5 ms
+### 3. Non-preemptive Priority
+- P₁: 5 - 5 = 0
+- P₂: 20 - 3 = 17
+- P₃: 10 - 1 = 9
+- P₄: 17 - 7 = 10
+- P₅: 9 - 4 = 5
+- **Rata-rata waktu tunggu: (0 + 17 + 9 + 10 + 5) / 5 = 8.2**
 
-### Round Robin (quantum = 2)
-- P₁: 11 - 5 = 6 ms
-- P₂: 12 - 3 = 9 ms
-- P₃: 5 - 1 = 4 ms
-- P₄: 20 - 7 = 13 ms
-- P₅: 16 - 4 = 12 ms
+### 4. Round Robin (RR)
+- P₁: 11 - 5 = 6
+- P₂: 12 - 3 = 9
+- P₃: 5 - 1 = 4
+- P₄: 20 - 7 = 13
+- P₅: 16 - 4 = 12
+- **Rata-rata waktu tunggu: (6 + 9 + 4 + 13 + 12) / 5 = 8.8**
 
-## d. Algoritma dengan Rata-rata Waktu Tunggu Minimum
+## d. Algoritma dengan Waktu Tunggu Rata-rata Minimum
 
-Rata-rata waktu tunggu untuk setiap algoritma:
+Dari hasil perhitungan di atas, algoritma yang menghasilkan waktu tunggu rata-rata minimum adalah:
 
-### FCFS
-(0 + 5 + 8 + 9 + 16) / 5 = 38 / 5 = 7,6 ms
+**Shortest Job First (SJF)** dengan waktu tunggu rata-rata **5.2 ms**
 
-### SJF
-(8 + 1 + 0 + 13 + 4) / 5 = 26 / 5 = 5,2 ms
-
-### Non-preemptive Priority
-(0 + 17 + 9 + 10 + 5) / 5 = 41 / 5 = 8,2 ms
-
-### Round Robin (quantum = 2)
-(6 + 9 + 4 + 13 + 12) / 5 = 44 / 5 = 8,8 ms
-
-Berdasarkan perhitungan di atas, algoritma **SJF (Shortest Job First)** menghasilkan rata-rata waktu tunggu minimum sebesar 5,2 ms.
+Perbandingan waktu tunggu rata-rata:
+1. FCFS: 7.6 ms
+2. SJF: 5.2 ms
+3. Non-preemptive Priority: 8.2 ms
+4. Round Robin: 8.8 ms
 
 
 
-# 5.18  
-
-## Tabel Proses
+# 5.18 The following processes are being scheduled using a preemptive, priority-based, round-robin scheduling algorithm.  
 
 | Proses | Prioritas | Burst Time | Arrival Time |
-|--------|-----------|------------|-------------|
-| P₁     | 8         | 15         | 0           |
-| P₂     | 3         | 20         | 0           |
-| P₃     | 4         | 20         | 20          |
-| P₄     | 4         | 20         | 25          |
-| P₅     | 5         | 5          | 45          |
-| P₆     | 5         | 15         | 55          |
+|--------|-----------|------------|--------------|
+| P₁     | 8         | 15         | 0            |
+| P₂     | 3         | 20         | 0            |
+| P₃     | 4         | 20         | 20           |
+| P₄     | 4         | 20         | 25           |
+| P₅     | 5         | 5          | 45           |
+| P₆     | 5         | 15         | 55           |
 
-Catatan:
-- Nilai prioritas lebih tinggi berarti prioritas lebih tinggi
-- Quantum = 10 unit waktu
-- Untuk proses dengan prioritas sama, digunakan algoritma Round Robin
-- Jika proses dipreempt, proses tersebut diletakkan di akhir antrian
+## Keterangan Algoritma
+- Prioritas lebih tinggi memiliki angka yang lebih tinggi
+- Untuk proses dengan prioritas sama, digunakan algoritma round-robin
+- Time quantum untuk round-robin adalah 10 unit waktu
+- Jika proses dipreempt, ditempatkan di akhir antrian
 
-## a. Diagram Gantt untuk Algoritma Penjadwalan Preemptive Priority Round-Robin
-
-Berikut adalah eksekusi berdasarkan waktu:
-
-- t=0: P₁ (prioritas 8) dan P₂ (prioritas 3) tiba. P₁ dieksekusi karena memiliki prioritas tertinggi.
-- t=10: P₁ telah berjalan selama 10 unit (quantum). Sisa burst time P₁ = 5. Tidak ada proses lain dengan prioritas lebih tinggi, jadi P₁ melanjutkan eksekusi.
-- t=15: P₁ selesai. P₂ (prioritas 3) dieksekusi.
-- t=20: P₃ (prioritas 4) tiba. Karena P₃ memiliki prioritas lebih tinggi dari P₂, P₂ dipreempt dan P₃ dieksekusi. Sisa burst time P₂ = 15.
-- t=25: P₄ (prioritas 4) tiba. P₃ sudah berjalan selama 5 unit. Karena P₃ dan P₄ memiliki prioritas sama (4), mereka akan dijadwalkan secara Round Robin.
-- t=30: P₃ telah berjalan selama 10 unit (quantum). P₄ mulai dieksekusi. Sisa burst time P₃ = 10.
-- t=40: P₄ telah berjalan selama 10 unit (quantum). P₃ melanjutkan eksekusi. Sisa burst time P₄ = 10.
-- t=45: P₅ (prioritas 5) tiba. Karena P₅ memiliki prioritas lebih tinggi dari P₃, P₃ dipreempt dan P₅ dieksekusi. Sisa burst time P₃ = 5.
-- t=50: P₅ selesai. P₃ melanjutkan eksekusi.
-- t=55: P₆ (prioritas 5) tiba. P₃ telah berjalan selama 5 unit sejak dipreempt terakhir kali. Karena P₆ memiliki prioritas lebih tinggi dari P₃, P₃ dipreempt dan P₆ dieksekusi. Sisa burst time P₃ = 0.
-- t=65: P₆ telah berjalan selama 10 unit (quantum). Sisa burst time P₆ = 5.
-- t=70: P₆ selesai. P₄ melanjutkan eksekusi. Sisa burst time P₄ = 0.
-- t=80: P₄ selesai. P₂ melanjutkan eksekusi.
-- t=95: P₂ selesai.
-
-Berikut diagram Gantt yang menggambarkan penjadwalan:
+## Solusi
+### a. Urutan Penjadwalan dengan Gantt Chart
 
 ```
-      P₁           P₂      P₃     P₄     P₃  P₅  P₃    P₆     P₄      P₂     
-+-------------+------+----------+------+----+---+----+------+------+--------+
-|             |      |          |      |    |   |    |      |      |        |
-+-------------+------+----------+------+----+---+----+------+------+--------+
-0            15     20         30     40   45  50   55     70     80       95
+┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┐
+│   P₁   │   P₁   │   P₃   │   P₃   │   P₃   │   P₅   │   P₆   │   P₆   │   P₄   │   P₄   │   P₂   │
+└────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘
+0        10        20        30        40        50        60        70        80        90       100       110
 ```
 
-## b. Waktu Turnaround untuk Setiap Proses
+### Penjelasan Urutan Eksekusi
+1. Pada t=0, proses yang tersedia adalah P₁ (prioritas 8) dan P₂ (prioritas 3). P₁ memiliki prioritas tertinggi dan akan dieksekusi.
+2. P₁ dieksekusi selama time quantum 10, burst time P₁ berkurang menjadi 5.
+3. Pada t=10, proses yang tersedia: P₁ (burst=5) dan P₂ (burst=20). P₁ masih memiliki prioritas tertinggi dan melanjutkan eksekusi.
+4. P₁ menyelesaikan sisa burstnya (5), dan selesai pada t=15.
+5. Pada t=15, hanya ada P₂ yang tersedia, sehingga P₂ mulai dieksekusi.
+6. Pada t=20, P₃ tiba dengan prioritas 4 yang lebih tinggi dari P₂ (prioritas 3). P₂ dipreempt, dan P₃ mulai dieksekusi.
+7. P₃ dieksekusi selama time quantum 10, burst time P₃ berkurang menjadi 10.
+8. Pada t=25, P₄ tiba dengan prioritas 4 (sama dengan P₃). P₃ melanjutkan eksekusi karena masih dalam time quantum pertamanya.
+9. Pada t=30, P₃ telah menggunakan 1 time quantum. Dalam antrian ada P₃ (burst=10, prioritas 4), P₄ (burst=20, prioritas 4), dan P₂ (burst=15, prioritas 3). Karena P₃ dan P₄ memiliki prioritas tertinggi dan sama, round-robin diterapkan, dan P₃ melanjutkan eksekusi (karena sudah dalam antrian).
+10. P₃ melanjutkan eksekusi selama time quantum 10 dan selesai pada t=40.
+11. Pada t=40, dalam antrian ada P₄ (prioritas 4) dan P₂ (prioritas 3). P₄ memiliki prioritas lebih tinggi sehingga dieksekusi.
+12. Pada t=45, P₅ tiba dengan prioritas 5 yang lebih tinggi dari P₄ (prioritas 4). P₄ dipreempt, dan P₅ mulai dieksekusi.
+13. P₅ memiliki burst time 5, sehingga selesai pada t=50.
+14. Pada t=50, proses yang tersedia adalah P₄ (burst=20, prioritas 4) dan P₂ (burst=15, prioritas 3). P₄ memiliki prioritas lebih tinggi.
+15. Pada t=55, P₆ tiba dengan prioritas 5 yang lebih tinggi dari P₄ (prioritas 4). P₄ dipreempt, dan P₆ mulai dieksekusi.
+16. P₆ dieksekusi selama time quantum 10, burst time P₆ berkurang menjadi 5.
+17. Pada t=65, P₆ melanjutkan eksekusi untuk sisa burstnya (5), dan selesai pada t=70.
+18. Pada t=70, tersisa P₄ (prioritas 4) dan P₂ (prioritas 3). P₄ memiliki prioritas lebih tinggi dan dieksekusi.
+19. P₄ dieksekusi selama time quantum 10, burst time P₄ berkurang menjadi 10.
+20. Pada t=80, P₄ melanjutkan eksekusi untuk time quantum kedua dan selesai pada t=90.
+21. Terakhir, P₂ dieksekusi hingga selesai pada t=110.
 
-Waktu turnaround = Waktu selesai - Waktu kedatangan
+### b. Waktu Turnaround untuk Setiap Proses
 
-- P₁: 15 - 0 = 15
-- P₂: 95 - 0 = 95
-- P₃: 55 - 20 = 35
-- P₄: 80 - 25 = 55
-- P₅: 50 - 45 = 5
-- P₆: 70 - 55 = 15
+Waktu turnaround = waktu selesai - waktu kedatangan
 
-## c. Waktu Tunggu untuk Setiap Proses
+1. P₁: 15 - 0 = 15
+2. P₂: 110 - 0 = 110
+3. P₃: 40 - 20 = 20
+4. P₄: 90 - 25 = 65
+5. P₅: 50 - 45 = 5
+6. P₆: 70 - 55 = 15
 
-Waktu tunggu = Waktu turnaround - Burst time
+### c. Waktu Tunggu untuk Setiap Proses
 
-- P₁: 15 - 15 = 0
-- P₂: 95 - 20 = 75
-- P₃: 35 - 20 = 15
-- P₄: 55 - 20 = 35
-- P₅: 5 - 5 = 0
-- P₆: 15 - 15 = 0
+Waktu tunggu = waktu turnaround - burst time
 
-## Ringkasan
-
-| Proses | Turnaround Time | Waiting Time |
-|--------|----------------|-------------|
-| P₁     | 15             | 0           |
-| P₂     | 95             | 75          |
-| P₃     | 35             | 15          |
-| P₄     | 55             | 35          |
-| P₅     | 5              | 0           |
-| P₆     | 15             | 0           |
-
-Rata-rata Turnaround Time = (15 + 95 + 35 + 55 + 5 + 15) / 6 = 220 / 6 = 36,67
-
-Rata-rata Waiting Time = (0 + 75 + 15 + 35 + 0 + 0) / 6 = 125 / 6 = 20,83
+1. P₁: 15 - 15 = 0
+2. P₂: 110 - 20 = 90
+3. P₃: 20 - 20 = 0
+4. P₄: 65 - 20 = 45
+5. P₅: 5 - 5 = 0
+6. P₆: 15 - 15 = 0
